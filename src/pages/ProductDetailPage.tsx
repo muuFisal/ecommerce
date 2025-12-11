@@ -6,6 +6,8 @@ import { Button } from '../components/ui/Button';
 import { findProductById } from '../data/products';
 import { useI18n } from '../i18n/I18nContext';
 import { RecommendedProductsSection } from '../components/sections/home/RecommendedProductsSection';
+import { useCartContext } from '../context/CartContext';
+import { useAuthContext } from '../context/AuthContext';
 
 interface ProductComment {
   id: number;
@@ -16,6 +18,8 @@ interface ProductComment {
 }
 
 const ProductDetailPage: React.FC = () => {
+  const { addToCart } = useCartContext();
+  const { role } = useAuthContext();
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useI18n();
@@ -114,9 +118,7 @@ const ProductDetailPage: React.FC = () => {
               </h1>
 
               <div className="flex items-end gap-3 pt-2">
-                <p className="font-display text-4xl font-bold text-text-main">
-                  ${product.flashSalePrice ?? product.price}
-                </p>
+                <p className="font-display text-4xl font-bold text-text-main">\n                  {role === 'trader' && product.seriesConfig?.isSeriesProduct ? `Series Price: $${product.seriesConfig.wholesalePricePerSeries} (${product.seriesConfig.totalPieces} pcs)` : role === 'trader' && product.wholesalePrice ? `Wholesale: $${product.wholesalePrice}` : `$${product.flashSalePrice ?? product.price}`}\n                </p>
                 {hasDiscount && (
                    <div className="flex flex-col leading-none pb-1">
                       <span className="text-sm text-text-muted line-through decoration-red-500/50 decoration-2">
@@ -137,6 +139,27 @@ const ProductDetailPage: React.FC = () => {
             </p>
 
             <div className="h-px w-full bg-border-subtle/50 my-2"></div>
+
+
+            {/* Hashtags / Tags */}
+            {product.tags && product.tags.length > 0 && (
+              <div className="space-y-3 pt-2">
+                <span className="text-xs font-semibold uppercase tracking-widest text-text-muted">
+                  {t('product.hashtags')}
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {product.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      to={`/shop?tag=${tag}`}
+                      className="rounded-full border border-border-subtle px-3 py-1 text-xs font-medium text-text-muted hover:border-primary hover:text-primary transition-colors"
+                    >
+                      #{tag}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Selectors */}
             <div className="space-y-6">
@@ -180,9 +203,7 @@ const ProductDetailPage: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3 pt-4">
-              <Button className="flex-1 py-4 text-sm shadow-xl shadow-primary/20">
-                {t('product.addToCart')}
-              </Button>
+              <Button className="flex-1 py-4 text-sm shadow-xl shadow-primary/20" onClick={() => addToCart(product, 1)}>\n                {t('product.addToCart')}\n              </Button>
               <button className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border-subtle bg-bg-elevated text-2xl transition-colors hover:bg-bg-soft hover:text-red-500">
                 ♥
               </button>

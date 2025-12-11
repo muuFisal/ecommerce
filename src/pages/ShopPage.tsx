@@ -4,13 +4,15 @@ import { Container } from '../components/ui/Container';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import type { Category, Tag } from '../data/products';
-import { PRODUCTS } from '../data/products';
+import { products } from '../data/products';
 import { useI18n } from '../i18n/I18nContext';
+import { useAuthContext } from '../context/AuthContext';
 
 const ALL_TAGS: Tag[] = ['oversized', 'unisex', 'minimal', 'graphic', 'summer', 'winter'];
 
 const ShopPage: React.FC = () => {
   const { t, lang } = useI18n();
+  const { role } = useAuthContext();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<Category | 'all'>('all');
   const [activeTags, setActiveTags] = useState<Tag[]>([]);
@@ -28,7 +30,7 @@ const ShopPage: React.FC = () => {
   };
 
   const filtered = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return products.filter((p) => {
       if (category !== 'all' && p.category !== category) return false;
       if (p.price < minPrice || p.price > maxPrice) return false;
       if (activeTags.length > 0 && !activeTags.every((t) => p.tags.includes(t))) return false;
@@ -156,7 +158,7 @@ const ShopPage: React.FC = () => {
                 {t('shop.title')}
               </h1>
               <p className="text-xs text-text-muted">
-                {t('shop.showing')} {filtered.length} {t('shop.of')} {PRODUCTS.length} {t('shop.items')}
+                {t('shop.showing')} {filtered.length} {t('shop.of')} {products.length} {t('shop.items')}
               </p>
             </div>
           </div>
@@ -268,9 +270,7 @@ const ShopPage: React.FC = () => {
                             </div>
                           )}
 
-                          <p className="text-xl font-semibold text-text-main">
-                            ${product.flashSalePrice ?? product.price}
-                          </p>
+                          <p className="text-xl font-semibold text-text-main">\n                            {role === 'trader' && product.seriesConfig?.isSeriesProduct ? `Series Price: $${product.seriesConfig.wholesalePricePerSeries} (${product.seriesConfig.totalPieces} pcs)` : role === 'trader' && product.wholesalePrice ? `Wholesale: $${product.wholesalePrice}` : `$${product.flashSalePrice ?? product.price}`}\n                          </p>
                         </div>
 
                         {/* زر إضافة للسلة */}

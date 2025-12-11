@@ -45,7 +45,7 @@ const AboutPage: React.FC = () => {
                     <span className="text-xs font-bold uppercase tracking-widest text-primary">{t('about.story.title')}</span>
                  </div>
                 <h2 className="font-display text-4xl font-bold text-text-main leading-tight">
-                    More than just a <br/> clothing brand.
+                    {t('about.story.heading')}
                 </h2>
                 <p className="text-lg text-text-muted leading-relaxed">
                     {t('about.story.desc')}
@@ -60,7 +60,7 @@ const AboutPage: React.FC = () => {
                 <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-tr from-primary/20 to-secondary/20 blur-2xl opacity-50"></div>
                 <img 
                     src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=800"
-                    alt="Team work"
+                    alt="{t('about.story.imageAlt')}"
                     className="relative rounded-[2.5rem] shadow-2xl border border-white/10 transform rotate-2 hover:rotate-0 transition-transform duration-700"
                 />
             </div>
@@ -111,7 +111,7 @@ const AboutPage: React.FC = () => {
                 <div className="space-y-6">
                     <span className="text-xs font-bold uppercase tracking-widest text-primary/80">{t('about.contact.title')}</span>
                     <h2 className="font-display text-4xl md:text-5xl font-black leading-tight">
-                        Let's build something <br/> <span className="text-primary">together.</span>
+                        {t('about.contact.heading')}
                     </h2>
                     <p className="text-lg text-white/70 max-w-md">
                         {t('about.contact.desc')}
@@ -119,7 +119,7 @@ const AboutPage: React.FC = () => {
                 </div>
 
                 <div className="grid gap-6">
-                    <a href="mailto:hello@nextwav.com" className="group flex items-center gap-6 rounded-2xl bg-white/5 p-6 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                    <a href="mailto:{t('about.contact.emailValue')}" className="group flex items-center gap-6 rounded-2xl bg-white/5 p-6 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-text-main">
                             ✉️
                         </div>
@@ -135,7 +135,7 @@ const AboutPage: React.FC = () => {
                         </div>
                          <div>
                             <p className="text-xs font-bold uppercase tracking-wider text-white/50">{t('about.contact.location')}</p>
-                            <p className="text-lg font-bold">Cairo, Egypt</p>
+                            <p className="text-lg font-bold">{t('about.contact.locationValue')}</p>
                         </div>
                     </div>
                 </div>

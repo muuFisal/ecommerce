@@ -21,38 +21,7 @@ const FALLBACK_THEME: ThemeConfig = {
 };
 
 export async function fetchThemeConfig(): Promise<ThemeConfig> {
-  try {
-    const res = await fetch('/api/theme', {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
-    if (!res.ok) {
-      console.warn('[themeApi] Non-OK response, using fallback theme');
-      return FALLBACK_THEME;
-    }
-
-    const data = await res.json();
-
-    // Expecting backend to send same structure as ThemeConfig, but we
-    // still merge with fallback to avoid missing fields causing crashes.
-    const merged: ThemeConfig = {
-      ...FALLBACK_THEME,
-      ...data,
-      colors: {
-        ...FALLBACK_THEME.colors,
-        ...(data.colors ?? {}),
-      },
-      fonts: {
-        ...FALLBACK_THEME.fonts,
-        ...(data.fonts ?? {}),
-      },
-    };
-
-    return merged;
-  } catch (error) {
-    console.error('[themeApi] Failed to fetch theme from backend, using fallback.', error);
-    return FALLBACK_THEME;
-  }
+  // Since this is a frontend-only app, we skip the API call
+  // and directly return the fallback theme configuration
+  return FALLBACK_THEME;
 }

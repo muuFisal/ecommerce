@@ -21,7 +21,7 @@ const TermsPage: React.FC = () => {
              </div>
              <div className="relative z-10 space-y-4 max-w-2xl">
                 <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-medium tracking-wider uppercase">
-                    Legal
+                    {t('terms.legalTag')}
                 </span>
                 <h1 className="font-display text-4xl sm:text-5xl font-bold text-white tracking-tight">
                     {t('terms.title')}
@@ -61,12 +61,12 @@ const TermsPage: React.FC = () => {
             {/* Sidebar / Quick Links */}
              <div className="space-y-6">
                 <Card className="rounded-[2rem] p-6 bg-primary/5 border-primary/10 space-y-4 sticky top-24">
-                    <h3 className="font-bold text-text-main">Need Help?</h3>
+                    <h3 className="font-bold text-text-main">{t('terms.sidebar.title')}</h3>
                     <p className="text-sm text-text-muted">
                         If you are unsure about any of these terms, please contact us before using our services.
                     </p>
                     <a href="mailto:legal@nextwav.com" className="block w-full py-3 px-4 bg-bg-base rounded-xl text-center text-sm font-bold text-text-main hover:bg-bg-elevated transition-colors border border-border-subtle">
-                        Contact Legal Team
+                        {t('terms.sidebar.button')}
                     </a>
                 </Card>
             </div>

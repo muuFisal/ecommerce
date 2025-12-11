@@ -4,19 +4,21 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { useI18n } from '../i18n/I18nContext';
 import { Link } from 'react-router-dom';
-import { PRODUCTS } from '../data/products';
+import { useAuthContext } from '../context/AuthContext';
+import { products } from '../data/products';
 
 const CartPage: React.FC = () => {
+  const { user, role } = useAuthContext();
   const { t } = useI18n();
   
   // Mock cart items (using first 2 products for demo)
   const [cartItems, setCartItems] = useState([
-    { ...PRODUCTS[0], quantity: 1, selectedSize: 'L', selectedColor: 'black' },
-    { ...PRODUCTS[1], quantity: 2, selectedSize: 'M', selectedColor: 'gray' },
+    { ...products[0], quantity: 1, selectedSize: 'L', selectedColor: 'black' },
+    { ...products[1], quantity: 2, selectedSize: 'M', selectedColor: 'gray' },
   ]);
 
   const subtotal = cartItems.reduce((acc, item) => {
-    const price = item.flashSalePrice ?? item.price;
+    const price = role === 'trader' && item.wholesalePrice ? item.wholesalePrice : item.flashSalePrice ?? item.price;
     return acc + price * item.quantity;
   }, 0);
 
@@ -50,6 +52,30 @@ const CartPage: React.FC = () => {
       </section>
     );
   }
+
+  const handleTraderCheckout = async () => {
+    // TODO: Implement actual API call
+    const submitTraderOrder = async (payload: any) => ({ success: true });
+    
+    const payload = {
+      type: 'trader',
+      items: cartItems.map(item => ({
+        productId: item.id,
+        mode: item.wholesalePrice ? 'wholesale' : 'retail',
+        quantity: item.quantity,
+      })),
+      totalAmount: subtotal,
+    };
+    const response = await submitTraderOrder(payload);
+    if (response.success) {
+      setCartItems([]);
+      alert('Your wholesale order has been submitted. Our team will contact you.');
+    }
+  };
+
+  const handleUserCheckout = () => {
+    alert('Proceeding to user checkout.');
+  };
 
   return (
     <section className="py-12 min-h-screen bg-bg-base/50">
@@ -110,7 +136,9 @@ const CartPage: React.FC = () => {
                       >
                         -
                       </button>
-                      <span className="w-8 text-center text-sm font-bold tabular-nums">{item.quantity}</span>
+                      <span className="w-8 text-center text-sm font-bold tabular-nums">
+                        {role === 'trader' && item.seriesConfig?.isSeriesProduct ? `Series × ${item.quantity} (Each series = ${item.seriesConfig.totalPieces} pcs)` : item.quantity}
+                      </span>
                       <button 
                         onClick={() => updateQuantity(item.id, 1)}
                         className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-bg-elevated text-text-muted hover:text-text-main transition-colors"
@@ -175,9 +203,10 @@ const CartPage: React.FC = () => {
                   </div>
               </div>
 
-              <Button fullWidth className="py-4 text-sm font-bold rounded-2xl shadow-xl shadow-primary/20 bg-gradient-to-r from-primary to-emerald-400 hover:to-emerald-500 border-none relative overflow-hidden group">
+              <Button fullWidth className="py-4 text-sm font-bold rounded-2xl shadow-xl shadow-primary/20 bg-gradient-to-r from-primary to-emerald-400 hover:to-emerald-500 border-none relative overflow-hidden group"
+                onClick={role === 'trader' ? handleTraderCheckout : handleUserCheckout}>
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                      {t('cart.checkout')}
+                      {role === 'trader' ? 'Send Wholesale Order' : t('cart.checkout')}
                   </span>
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
               </Button>

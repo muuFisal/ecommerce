@@ -6,6 +6,12 @@ export interface Variant {
   value: string;
 }
 
+export interface SeriesConfig {
+  isSeriesProduct: boolean;
+  totalPieces?: number;
+  wholesalePricePerSeries?: number;
+}
+
 export interface Product {
   id: number;
   slug: string;
@@ -23,14 +29,24 @@ export interface Product {
   flashSalePrice?: number;
   reviewsCount?: number;
   rating?: number;
+  wholesalePrice?: number;
+  seriesConfig?: SeriesConfig;
+  isRecommended?: boolean;
 }
 
-export const PRODUCTS: Product[] = [
+export const products: Product[] = [
+
   {
     id: 1,
     slug: 'midnight-script-hoodie',
     name: 'Midnight Script Hoodie',
     price: 59,
+    wholesalePrice: 45,
+    seriesConfig: {
+      isSeriesProduct: true,
+      totalPieces: 10,
+      wholesalePricePerSeries: 400,
+    },
     category: 'hoodies',
     tags: ['oversized', 'unisex', 'winter'],
     hasVariants: true,
@@ -128,5 +144,5 @@ export const PRODUCTS: Product[] = [
 ];
 
 export function findProductById(id: number): Product | undefined {
-  return PRODUCTS.find((p) => p.id === id);
+  return products.find((p) => p.id === id);
 }

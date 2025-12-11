@@ -3,11 +3,13 @@ import { Container } from "../../ui/Container";
 import { Card } from "../../ui/Card";
 import { Button } from "../../ui/Button";
 import { Link } from "react-router-dom";
-import { PRODUCTS } from "../../../data/products";
+import { useCartContext } from "../../../context/CartContext";
+import { products } from "../../../data/products";
 import { useI18n } from "../../../i18n/I18nContext";
 
 export const NewArrivalsSection: React.FC = () => {
-  const items = [...PRODUCTS, ...PRODUCTS].slice(0, 8);
+  const { addToCart } = useCartContext();
+  const items = [...products, ...products].slice(0, 8);
   const { t, lang } = useI18n();
 
   const arrow = lang === "ar" ? "←" : "→";
@@ -44,8 +46,8 @@ export const NewArrivalsSection: React.FC = () => {
               )
             : null;
 
-          const reviewsCount = product.reviewsCount ?? 97;
-          const rating = product.rating ?? 5;
+          const reviewsCount = product.reviewsCount ?? 0;
+          const rating = product.rating ?? 0;
 
           return (
             <Card
@@ -130,7 +132,7 @@ export const NewArrivalsSection: React.FC = () => {
                     <button
                       type="button"
                       className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-bg-base text-lg shadow-md hover:scale-105 hover:shadow-lg transition-transform"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={() => addToCart(product, 1)}
                     >
                       🛒
                     </button>

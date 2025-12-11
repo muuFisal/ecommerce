@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
+import { useCartContext } from "../../context/CartContext";
 import { Container } from "../ui/Container";
 import { Button } from "../ui/Button";
 import { useI18n } from "../../i18n/I18nContext";
@@ -8,6 +9,7 @@ import nextwavLogo from "../../assets/logo.png"; // 👈 اللوجو
 
 export const Navbar: React.FC = () => {
   const { mode, toggleMode } = useTheme();
+  const { cart } = useCartContext();
   const { lang, setLang, t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,6 +38,16 @@ export const Navbar: React.FC = () => {
     <header className={`z-40 border-b border-border-subtle/60 ${headerBg}`}>
       {/* الشريط الرئيسي */}
       <Container className="flex h-16 items-center justify-between gap-4">
+        <div className="absolute right-4 top-4">
+          <Link to="/cart" className="relative">
+            🛒
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                {cart.length}
+              </span>
+            )}
+          </Link>
+        </div>
         {/* Logo + Brand */}
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">

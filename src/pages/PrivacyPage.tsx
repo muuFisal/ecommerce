@@ -21,7 +21,7 @@ const PrivacyPage: React.FC = () => {
              </div>
              <div className="relative z-10 space-y-4 max-w-2xl">
                 <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-medium tracking-wider uppercase">
-                    Legal
+                    {t('privacy.legalTag')}
                 </span>
                 <h1 className="font-display text-4xl sm:text-5xl font-bold text-white tracking-tight">
                     {t('privacy.title')}
@@ -61,12 +61,12 @@ const PrivacyPage: React.FC = () => {
             {/* Sidebar / Quick Links */}
              <div className="space-y-6">
                 <Card className="rounded-[2rem] p-6 bg-primary/5 border-primary/10 space-y-4 sticky top-24">
-                    <h3 className="font-bold text-text-main">Questions?</h3>
+                    <h3 className="font-bold text-text-main">{t('privacy.sidebar.title')}</h3>
                     <p className="text-sm text-text-muted">
                         If you have any questions about our privacy policy, please contact our support team.
                     </p>
                     <a href="mailto:privacy@nextwav.com" className="block w-full py-3 px-4 bg-bg-base rounded-xl text-center text-sm font-bold text-text-main hover:bg-bg-elevated transition-colors border border-border-subtle">
-                        Contact Support
+                        {t('privacy.sidebar.button')}
                     </a>
                 </Card>
             </div>

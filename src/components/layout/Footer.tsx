@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
     // Placeholder for future API integration
     console.log("Subscribe email:", email);
     setEmail("");
-    alert("Thank you for subscribing!"); // Simple feedback for now
+    alert(t("footer.newsletter.thankYou")); // Simple feedback for now
   };
 
   return (
@@ -127,8 +127,8 @@ export const Footer: React.FC = () => {
       {/* Copyright / Bottom Bar */}
       <Container className={`mt-16 pt-8 border-t ${borderClass}`}>
          <div className={`flex flex-col md:flex-row justify-between items-center gap-4 text-xs ${textMutedClass}`}>
-            <p>© 2025 NEXTWAV. All rights reserved.</p>
-            <p>Designed for the new generation.</p>
+            <p>{t("footer.copyright")}</p>
+            <p>{t("footer.tagline")}</p>
          </div>
       </Container>
     </footer>

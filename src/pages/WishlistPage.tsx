@@ -4,13 +4,13 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { useI18n } from '../i18n/I18nContext';
 import { Link } from 'react-router-dom';
-import { PRODUCTS } from '../data/products';
+import { products } from '../data/products';
 
 const WishlistPage: React.FC = () => {
     const { t } = useI18n();
 
     // Mock Wishlist Data (using some products)
-    const [wishlistItems, setWishlistItems] = useState(PRODUCTS.slice(0, 4));
+    const [wishlistItems, setWishlistItems] = useState(products.slice(0, 4));
 
     const removeItem = (id: number) => {
         setWishlistItems(prev => prev.filter(item => item.id !== id));

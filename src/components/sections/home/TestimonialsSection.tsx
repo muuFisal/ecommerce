@@ -251,7 +251,7 @@ export const TestimonialsSection: React.FC = () => {
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="glass-card relative w-full max-w-lg rounded-3xl border border-border-subtle/70 bg-bg-elevated/95 p-6">
+          <div className="glass-card relative w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-3xl border border-border-subtle/70 bg-bg-elevated/95 p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h3 className="font-display text-lg font-semibold text-text-main">
                 {t("community.modalTitle")}

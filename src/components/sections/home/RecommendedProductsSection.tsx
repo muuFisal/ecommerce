@@ -2,18 +2,18 @@ import React from "react";
 import { Container } from "../../ui/Container";
 import { Card } from "../../ui/Card";
 import { Link } from "react-router-dom";
-import { PRODUCTS } from "../../../data/products";
+import { products } from "../../../data/products";
 import { useI18n } from "../../../i18n/I18nContext";
 
 export const RecommendedProductsSection: React.FC = () => {
   const { t, lang } = useI18n();
   const arrow = lang === "ar" ? "←" : "→";
 
-  const recommended = PRODUCTS.filter((p: any) => p.isRecommended);
+  const recommended = products.filter((p) => p.isRecommended);
   const items =
     recommended.length > 0
       ? recommended.slice(0, 4)
-      : [...PRODUCTS, ...PRODUCTS].slice(0, 4);
+      : [...products, ...products].slice(0, 4);
 
   if (!items.length) return null;
 

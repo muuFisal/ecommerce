@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Container } from "../components/ui/Container";
 import { Card } from "../components/ui/Card";
 import { Link } from "react-router-dom";
-import { PRODUCTS } from "../data/products";
+import { products } from "../data/products";
 import { useI18n } from "../i18n/I18nContext";
+import { useCartContext } from "../context/CartContext";
+import { useAuthContext } from "../context/AuthContext";
 
 const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
   const { t } = useI18n();
@@ -66,8 +68,10 @@ const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
 };
 
 const FlashSalePage: React.FC = () => {
+  const { addToCart } = useCartContext();
+  const { role } = useAuthContext();
   const { t, lang } = useI18n();
-  const flashItems = PRODUCTS.filter((p) => p.onFlashSale);
+  const flashItems = products.filter((p) => p.onFlashSale);
 
   // Set a target date 24 hours from now for demo purposes
   // In a real app, this would come from the backend or the product data
@@ -215,15 +219,13 @@ const FlashSalePage: React.FC = () => {
                           </div>
                         )}
 
-                        <p className="text-2xl font-bold text-text-main">
-                          ${product.flashSalePrice ?? product.price}
-                        </p>
+                        <p className="text-2xl font-bold text-text-main">\n                          {role === 'trader' && product.seriesConfig?.isSeriesProduct ? `Series Price: $${product.seriesConfig.wholesalePricePerSeries} (${product.seriesConfig.totalPieces} pcs)` : role === 'trader' && product.wholesalePrice ? `Wholesale: $${product.wholesalePrice}` : `$${product.flashSalePrice ?? product.price}`}\n                        </p>
                       </div>
 
                       <button
                         type="button"
                         className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-bg-base text-lg shadow-md hover:scale-105 hover:shadow-lg transition-transform"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={() => addToCart(product, 1)}
                       >
                         🛒
                       </button>

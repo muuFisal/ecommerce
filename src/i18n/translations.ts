@@ -3,6 +3,14 @@ export type Lang = 'en' | 'ar';
 type Translations = Record<string, { en: string; ar: string }>;
 
 export const translations: Translations = {
+  'section.recommended': {
+    en: "Recommended for you",
+    ar: "مختارة لك"
+  },
+  'community.roleLabel': {
+    en: "Role / Job title (optional)",
+    ar: "الوظيفة / الدور (اختياري)"
+  },
   // Navbar
   // Navbar
   'nav.home': { en: 'Home', ar: 'الرئيسية' },

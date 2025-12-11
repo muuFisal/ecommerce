@@ -20,8 +20,8 @@ const BRANDS: Brand[] = [
   { id: 9, name: "Medium", logo: "https://cdn.simpleicons.org/medium" },
   {
     id: 10,
-    name: "Microsoft",
-    logo: "https://cdn.simpleicons.org/microsoft",
+    name: "Apple",
+    logo: "https://cdn.simpleicons.org/apple",
   },
   { id: 11, name: "Vodafone", logo: "https://cdn.simpleicons.org/vodafone" },
   { id: 12, name: "Sony", logo: "https://cdn.simpleicons.org/sony" },
