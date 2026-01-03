@@ -29,6 +29,7 @@ export const WheelPopup: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0); // degrees
+  const [copied, setCopied] = useState(false); // track copy state
   const spinTargetIndex = useRef<number | null>(null);
 
   const canShow = useMemo(() => canShowWheel(), [canShowWheel, state.lastWheelAt]);
@@ -149,10 +150,23 @@ export const WheelPopup: React.FC = () => {
                 <Button
                   className="text-xs"
                   onClick={async () => {
-                    await navigator.clipboard?.writeText(coupon.code);
+                    try {
+                      await navigator.clipboard?.writeText(coupon.code);
+                      setCopied(true);
+                      
+                      // Close modal after 1 second
+                      setTimeout(() => {
+                        setOpen(false);
+                        // Reset copied state for next time
+                        setTimeout(() => setCopied(false), 300);
+                      }, 1000);
+                    } catch (err) {
+                      console.error('Failed to copy:', err);
+                    }
                   }}
+                  disabled={copied}
                 >
-                  {t('nassej.wheel.copy')}
+                  {copied ? '✓ ' + t('nassej.wheel.copied') : t('nassej.wheel.copy')}
                 </Button>
               </div>
             </div>

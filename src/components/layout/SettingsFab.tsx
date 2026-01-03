@@ -19,12 +19,23 @@ function isValidHexColor(value: string) {
 
 export const SettingsFab: React.FC = () => {
   const { lang, t, setLang } = useI18n();
-  const { mode, resolvedMode, setMode, fontKey, setFontKey, colors, setColors, autoDarkByTime, setAutoDarkByTime } = useThemeContext();
+  const {
+    mode,
+    resolvedMode,
+    setMode,
+    fontKey,
+    setFontKey,
+    colors,
+    setColors,
+    autoDarkByTime,
+    setAutoDarkByTime,
+  } = useThemeContext();
 
   const [soundsEnabled, setSoundsEnabled] = useLocalStorageState<boolean>(SOUND_LS_KEY, false);
 
   const [open, setOpen] = useState(false);
   const side = lang === 'ar' ? 'right' : 'left';
+  const isRTL = lang === 'ar';
 
   const currentColors = colors ?? { primary: '#22c55e', secondary: '#38bdf8' };
   const [primary, setPrimary] = useState(currentColors.primary);
@@ -67,6 +78,16 @@ export const SettingsFab: React.FC = () => {
     ? { backgroundColor: '#0b1220', color: '#ffffff' }
     : { backgroundColor: '#ffffff', color: '#0f172a' };
 
+  // ✅ RTL-safe toggle knob positioning (no translate-x; use left/right)
+  const toggleKnobPosition = (enabled: boolean) => {
+    // LTR: off = left, on = right
+    // RTL: off = right, on = left
+    if (isRTL) {
+      return enabled ? 'left-1' : 'right-1';
+    }
+    return enabled ? 'right-1' : 'left-1';
+  };
+
   return (
     <>
       {/* Floating button */}
@@ -98,12 +119,9 @@ export const SettingsFab: React.FC = () => {
         <div
           className={
             `absolute bottom-6 ${side}-6 ` +
-            // ✅ Responsive width: smaller on mobile, larger on tablet/desktop
             `w-[340px] max-w-[calc(100vw-3rem)] sm:w-[380px] md:w-[420px] ` +
-            // ✅ Max height to prevent overflow
             `max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-4rem)] ` +
             `rounded-2xl flex flex-col ` +
-            // ✅ more visible in light mode + subtle ring
             `border border-border-subtle bg-bg-elevated/98 shadow-2xl backdrop-blur ` +
             `ring-1 ring-black/10 dark:ring-white/10 ` +
             `transition-transform duration-200 ${
@@ -187,26 +205,26 @@ export const SettingsFab: React.FC = () => {
                   <p className="font-semibold text-text-main">{t('settings.autoDarkByTime')}</p>
                   <p className="text-[11px] text-text-muted">{t('settings.autoDarkByTimeDesc')}</p>
                 </div>
+
                 <button
                   type="button"
                   onClick={() => setAutoDarkByTime(!autoDarkByTime)}
                   className={
-                    'h-8 w-14 rounded-full border transition ' +
-                    (autoDarkByTime
-                      ? 'border-primary bg-primary/20'
-                      : 'border-border-subtle bg-bg-base')
+                    'relative h-8 w-14 rounded-full border transition ' +
+                    (autoDarkByTime ? 'border-primary bg-primary/20' : 'border-border-subtle bg-bg-base')
                   }
-                  aria-label="auto dark"
+                  aria-label={t('settings.autoDarkByTime')}
                 >
                   <span
                     className={
-                      'block h-6 w-6 translate-x-1 rounded-full bg-text-main transition-transform ' +
-                      (autoDarkByTime ? 'translate-x-7 bg-primary' : 'translate-x-1')
+                      'absolute top-1 h-6 w-6 rounded-full transition-all duration-200 ' +
+                      toggleKnobPosition(autoDarkByTime) +
+                      ' ' +
+                      (autoDarkByTime ? 'bg-primary' : 'bg-text-main')
                     }
                   />
                 </button>
               </div>
-
             </div>
 
             {/* Language */}
@@ -254,7 +272,6 @@ export const SettingsFab: React.FC = () => {
                 <select
                   value={fontKey ?? ''}
                   onChange={(e) => setFontKey(e.target.value || null)}
-                  // ✅ important: helps browser render native dropdown in dark mode correctly
                   style={{ colorScheme: isDarkResolved ? 'dark' : 'light' }}
                   className={
                     `h-10 w-full rounded-xl border border-border-subtle px-3 text-sm outline-none transition-colors ` +
@@ -304,21 +321,22 @@ export const SettingsFab: React.FC = () => {
                   <p className="font-semibold text-text-main">{t('settings.soundsOn')}</p>
                   <p className="text-[11px] text-text-muted">{t('settings.soundsDesc')}</p>
                 </div>
+
                 <button
                   type="button"
                   onClick={() => setSoundsEnabled(!soundsEnabled)}
                   className={
-                    'h-8 w-14 rounded-full border transition ' +
-                    (soundsEnabled
-                      ? 'border-primary bg-primary/20'
-                      : 'border-border-subtle bg-bg-base')
+                    'relative h-8 w-14 rounded-full border transition ' +
+                    (soundsEnabled ? 'border-primary bg-primary/20' : 'border-border-subtle bg-bg-base')
                   }
-                  aria-label="sounds"
+                  aria-label={t('settings.sounds')}
                 >
                   <span
                     className={
-                      'block h-6 w-6 translate-x-1 rounded-full bg-text-main transition-transform ' +
-                      (soundsEnabled ? 'translate-x-7 bg-primary' : 'translate-x-1')
+                      'absolute top-1 h-6 w-6 rounded-full transition-all duration-200 ' +
+                      toggleKnobPosition(soundsEnabled) +
+                      ' ' +
+                      (soundsEnabled ? 'bg-primary' : 'bg-text-main')
                     }
                   />
                 </button>
@@ -333,11 +351,13 @@ export const SettingsFab: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <label className={
-                  `flex items-center justify-between gap-2 rounded-xl border border-border-subtle px-3 py-2 text-sm transition-colors cursor-pointer ` +
-                  `bg-bg-elevated/60 ` +
-                  `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
-                }>
+                <label
+                  className={
+                    `flex items-center justify-between gap-2 rounded-xl border border-border-subtle px-3 py-2 text-sm transition-colors cursor-pointer ` +
+                    `bg-bg-elevated/60 ` +
+                    `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
+                  }
+                >
                   <span className="text-text-muted">{t('settings.primary')}</span>
                   <input
                     type="color"
@@ -351,11 +371,13 @@ export const SettingsFab: React.FC = () => {
                   />
                 </label>
 
-                <label className={
-                  `flex items-center justify-between gap-2 rounded-xl border border-border-subtle px-3 py-2 text-sm transition-colors cursor-pointer ` +
-                  `bg-bg-elevated/60 ` +
-                  `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
-                }>
+                <label
+                  className={
+                    `flex items-center justify-between gap-2 rounded-xl border border-border-subtle px-3 py-2 text-sm transition-colors cursor-pointer ` +
+                    `bg-bg-elevated/60 ` +
+                    `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
+                  }
+                >
                   <span className="text-text-muted">{t('settings.secondary')}</span>
                   <input
                     type="color"

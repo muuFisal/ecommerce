@@ -876,7 +876,97 @@ export const translations: Translations = {
   'nassej.gallery.submit': { en: 'Submit', ar: 'إرسال' },
   'nassej.gallery.thanks': { en: 'Thanks! Your upload is received.', ar: 'شكرًا! تم استلام الرفع.' },
 
+  // 404 Not Found Page
+  'notFound.title': { en: 'This page drifted off the grid.', ar: 'الصفحة دي اختفت من الخريطة.' },
+  'notFound.description': {
+    en: "Maybe the drop moved, maybe the link is old. No problem — head back home and we'll help you find a fresh fit.",
+    ar: 'ممكن الدروب اتنقل، أو الرابط قديم. مش مشكلة — ارجع للصفحة الرئيسية وهنساعدك تلاقي إطلالة جديدة.'
+  },
+  'notFound.backHome': { en: 'Back to home', ar: 'العودة للرئيسية' },
 
+  // Testimonials - Default testimonials
+  'testimonial.default.1.name': { en: 'Omar', ar: 'عمر' },
+  'testimonial.default.1.role': { en: 'Streetwear Fan', ar: 'من محبي الستريت وير' },
+  'testimonial.default.1.message': {
+    en: 'The vibe of the store feels like a global brand already.',
+    ar: 'جو المتجر بيحسسك إنه براند عالمي فعلاً.'
+  },
+  'testimonial.default.1.time': { en: '1 day ago', ar: 'منذ يوم' },
+
+  'testimonial.default.2.name': { en: 'Sara', ar: 'سارة' },
+  'testimonial.default.2.role': { en: 'Designer', ar: 'مصممة' },
+  'testimonial.default.2.message': {
+    en: 'Clean design, easy to imagine real products living here.',
+    ar: 'تصميم نظيف، سهل تتخيل منتجات حقيقية هنا.'
+  },
+  'testimonial.default.2.time': { en: '3 days ago', ar: 'منذ 3 أيام' },
+
+  'testimonial.default.3.name': { en: 'Yousef', ar: 'يوسف' },
+  'testimonial.default.3.role': { en: 'Customer', ar: 'عميل' },
+  'testimonial.default.3.message': {
+    en: 'Excited to see this platform go live with real drops.',
+    ar: 'متحمس أشوف المنصة دي تشتغل بإصدارات حقيقية.'
+  },
+  'testimonial.default.3.time': { en: '1 week ago', ar: 'منذ أسبوع' },
+
+  'testimonial.default.4.name': { en: 'Laila', ar: 'ليلى' },
+  'testimonial.default.4.role': { en: 'Brand Owner', ar: 'صاحبة براند' },
+  'testimonial.default.4.message': {
+    en: 'Love the mix between global streetwear and local culture.',
+    ar: 'بحب المزيج بين الستريت وير العالمي والثقافة المحلية.'
+  },
+  'testimonial.default.4.time': { en: '2 weeks ago', ar: 'منذ أسبوعين' },
+
+  'testimonial.default.5.name': { en: 'Ahmed', ar: 'أحمد' },
+  'testimonial.default.5.role': { en: 'Developer', ar: 'مطور' },
+  'testimonial.default.5.message': {
+    en: 'Smooth experience and a clean interface. Feels premium.',
+    ar: 'تجربة سلسة وواجهة نظيفة. بتحسس إنها بريميوم.'
+  },
+  'testimonial.default.5.time': { en: '1 month ago', ar: 'منذ شهر' },
+
+  'testimonial.default.6.name': { en: 'Mona', ar: 'منى' },
+  'testimonial.default.6.role': { en: 'Photographer', ar: 'مصورة' },
+  'testimonial.default.6.message': {
+    en: 'Colors, layout, and vibe are all on point.',
+    ar: 'الألوان والتصميم والجو كله في المكان الصح.'
+  },
+  'testimonial.default.6.time': { en: '1 month ago', ar: 'منذ شهر' },
+
+  // Common fallback text
+  'common.anonymous': { en: 'Anonymous', ar: 'مجهول' },
+  'common.customer': { en: 'Customer', ar: 'عميل' },
+  'common.justNow': { en: 'Just now', ar: 'الآن' },
+  'common.loading': { en: 'Loading...', ar: 'جارٍ التحميل...' },
+  'common.error': { en: 'Error', ar: 'خطأ' },
+  'common.success': { en: 'Success', ar: 'نجح' },
+
+  // Aria labels
+  'aria.toggleTheme': { en: 'Toggle theme', ar: 'تبديل المظهر' },
+  'aria.toggleMenu': { en: 'Toggle navigation menu', ar: 'فتح/إغلاق القائمة' },
+  'aria.scrollLeft': { en: 'Scroll left', ar: 'تمرير لليسار' },
+  'aria.scrollRight': { en: 'Scroll right', ar: 'تمرير لليمين' },
+  'aria.close': { en: 'Close', ar: 'إغلاق' },
+
+  'nassej.quiz.q1.title': { en: 'What vibe are you in the mood for?', ar: 'ما هو الجو اللي تانية؟' },
+  'nassej.quiz.q1.a1': { en: 'Minimal', ar: 'متناسق' },
+  'nassej.quiz.q1.a2': { en: 'Graphic', ar: 'جرافيك' },
+  'nassej.quiz.q1.a3': { en: 'Cozy', ar: 'مريح' },
+  'nassej.quiz.q1.a4': { en: 'Summer', ar: 'صيف' },
+
+  'nassej.quiz.q2.title': { en: 'What vibe are you in the mood for?', ar: 'ما هو الجو اللي تانية؟' },
+  'nassej.quiz.q2.a1': { en: 'Minimal', ar: 'متناسق' },
+  'nassej.quiz.q2.a2': { en: 'Graphic', ar: 'جرافيك' },
+  'nassej.quiz.q2.a3': { en: 'Cozy', ar: 'مريح' },
+  'nassej.quiz.q2.a4': { en: 'Summer', ar: 'صيف' },
+
+  'exit.reason.other': { en: 'Other', ar: 'آخر' },
+  'exit.reason.just_browsing': { en: 'Just browsing', ar: 'التسوق' },
+  'exit.reason.buying': { en: 'Buying', ar: 'الشراء' },
+  'exit.reason.searching': { en: 'Searching', ar: 'البحث' },  
+  'exit.reason.shipping': { en: 'Shipping', ar: 'الشحن' },
+  'exit.reason.prices': { en: 'Prices', ar: 'السعر' },  
+  'exit.reason.not_sure': { en: 'Not sure', ar: 'غير متأكد' },
 };
 
 export function t(key: string, lang: Lang): string {
