@@ -28,6 +28,21 @@ export const translations: Translations = {
   // Common Actions
   'actions.viewAll': { en: 'View all', ar: 'عرض الكل' },
 
+  // Settings panel
+  'settings.title': { en: 'Settings', ar: 'الإعدادات' },
+  'settings.theme': { en: 'Theme', ar: 'المظهر' },
+  'settings.theme.system': { en: 'System', ar: 'حسب النظام' },
+  'settings.theme.light': { en: 'Light', ar: 'فاتح' },
+  'settings.theme.dark': { en: 'Dark', ar: 'داكن' },
+  'settings.language': { en: 'Language', ar: 'اللغة' },
+  'settings.language.en': { en: 'English', ar: 'الإنجليزية' },
+  'settings.language.ar': { en: 'Arabic', ar: 'العربية' },
+  'settings.font': { en: 'Font', ar: 'الخط' },
+  'settings.colors': { en: 'Colors', ar: 'الألوان' },
+  'settings.primary': { en: 'Primary', ar: 'الأساسي' },
+  'settings.secondary': { en: 'Secondary', ar: 'الفرعي' },
+  'settings.reset': { en: 'Reset', ar: 'إعادة ضبط' },
+
   // Shop Categories
   'categories.pants': { en: 'Pants', ar: 'بناطيل' },
   'categories.all': { en: 'All', ar: 'الكل' },

@@ -103,13 +103,13 @@ export const Navbar: React.FC = () => {
         {/* ديسكتوب */}
         <div className="hidden items-center gap-3 sm:flex">
           {/* Lang switch */}
-          <button
+          {/* <button
             type="button"
             onClick={() => setLang(lang === "en" ? "ar" : "en")}
             className="hidden items-center gap-1 rounded-2xl border border-border-subtle bg-bg-soft px-3 py-1.5 text-xs text-text-muted transition hover:border-primary hover:text-primary sm:inline-flex"
           >
             <span>{lang === "en" ? "AR" : "EN"}</span>
-          </button>
+          </button> */}
 
           {/* Wishlist icon فقط */}
           <Link
@@ -130,14 +130,14 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* Theme toggle */}
-          <button
+          {/* <button
             type="button"
             onClick={toggleMode}
             className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-border-subtle bg-bg-soft text-xs text-text-muted transition hover:border-primary hover:text-primary"
             aria-label="Toggle theme"
           >
             {mode === "dark" ? "☀️" : "🌙"}
-          </button>
+          </button> */}
 
           {/* Auth buttons */}
           <Link

@@ -1,4 +1,5 @@
-export type ThemeMode = 'light' | 'dark';
+// User preference. "system" means follow OS preference.
+export type ThemeMode = 'light' | 'dark' | 'system';
 
 export interface ThemeColors {
   primary: string;

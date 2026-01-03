@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { TopBar } from './TopBar';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { SettingsFab } from './SettingsFab';
 
 export const Layout: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ export const Layout: React.FC = () => {
         <Outlet />
       </main>
       <Footer />
+      <SettingsFab />
     </div>
   );
 };
