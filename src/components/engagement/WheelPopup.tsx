@@ -175,11 +175,13 @@ export const WheelPopup: React.FC = () => {
               {/* Wheel */}
               <div className="relative mx-auto flex w-full max-w-[320px] items-center justify-center">
                 {/* Pointer */}
-                <div
-                  className="absolute top-[-6px] z-10 h-0 w-0 border-l-[12px] border-r-[12px] border-b-[18px] border-l-transparent border-r-transparent border-b-primary drop-shadow"
-                  aria-hidden
-                />
+                <div className="absolute top-[6px] left-1/2 z-10 -translate-x-1/2" aria-hidden>
+                  {/* triangle */}
+                  <div className="h-0 w-0 border-l-[14px] border-r-[14px] border-t-[22px] border-l-transparent border-r-transparent border-t-primary drop-shadow-[0_6px_10px_rgba(0,0,0,0.35)]" />
 
+                  {/* small dot to point precisely */}
+                  <div className="mx-auto mt-[-2px] h-[8px] w-[8px] rounded-full bg-primary shadow-[0_6px_12px_rgba(0,0,0,0.35)]" />
+                </div>
                 <div
                   className="relative h-[300px] w-[300px] rounded-full shadow-2xl"
                   style={{
