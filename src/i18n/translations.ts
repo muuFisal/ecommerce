@@ -617,6 +617,266 @@ export const translations: Translations = {
   'footer.newsletter.subtitle': { en: 'Get early access to new drops and exclusive offers.', ar: 'احصل على وصول مبكر للإصدارات الجديدة والعروض الحصرية.' },
   'footer.newsletter.placeholder': { en: 'Enter your email', ar: 'أدخل بريدك الإلكتروني' },
   'footer.newsletter.button': { en: 'Subscribe', ar: 'اشتراك' },
+
+  // Navbar extras
+  'nav.styleQuiz': { en: 'Style Quiz', ar: 'اختبار الستايل' },
+  'nav.drops': { en: 'Drops', ar: 'دروب' },
+
+  // Settings additions
+  'settings.autoDarkByTime': { en: 'Auto dark by time', ar: 'دارك مود تلقائي حسب الوقت' },
+  'settings.autoDarkByTime.desc': {
+    en: 'If Theme is “System”, switch to dark at night automatically.',
+    ar: 'عند اختيار “حسب النظام”، يتم التحويل للداكن تلقائيًا ليلًا.',
+  },
+  'settings.sounds': { en: 'Interface sounds', ar: 'أصوات الواجهة' },
+  'settings.sounds.desc': {
+    en: 'Small feedback sounds for key actions (local only).',
+    ar: 'أصوات خفيفة لبعض الإجراءات (محليًا فقط).',
+  },
+
+  // Shop additions
+  'shop.fabric': { en: 'Fabric', ar: 'نوع القماش' },
+  'shop.fabric.all': { en: 'All fabrics', ar: 'كل الأقمشة' },
+
+  // Wheel popup
+  'nassej.wheel.kicker': { en: 'Lucky Wheel', ar: 'عجلة الحظ' },
+  'nassej.wheel.title': { en: 'Spin & win a discount', ar: 'لفّ واكسب خصم' },
+  'nassej.wheel.subtitle': {
+    en: 'One spin per device. Copy your coupon and use it at checkout later.',
+    ar: 'لفة واحدة لكل جهاز. انسخ الكوبون واستخدمه لاحقًا عند الدفع.',
+  },
+  'nassej.wheel.spin': { en: 'Spin', ar: 'لفّ' },
+  'nassej.wheel.close': { en: 'Maybe later', ar: 'لاحقًا' },
+  'nassej.wheel.percentPrefix': { en: 'Discount:', ar: 'خصم:' },
+  'nassej.wheel.amountPrefix': { en: 'Off:', ar: 'خصم بقيمة:' },
+  'nassej.wheel.copy': { en: 'Copy coupon', ar: 'نسخ الكوبون' },
+  'nassej.wheel.copied': { en: 'Copied!', ar: 'تم النسخ!' },
+
+  // Exit intent
+  'nassej.exit.kicker': { en: 'Before you go…', ar: 'قبل ما تمشي…' },
+  'nassej.exit.title': { en: 'Help us improve', ar: 'ساعدنا نحسّن التجربة' },
+  'nassej.exit.subtitle': { en: 'What stopped you from purchasing today?', ar: 'إيه اللي منعك تشتري النهارده؟' },
+  'nassej.exit.reason.just_browsing': { en: 'Just browsing', ar: 'بتفرّج بس' },
+  'nassej.exit.reason.prices': { en: 'Prices', ar: 'الأسعار' },
+  'nassej.exit.reason.shipping': { en: 'Shipping / delivery', ar: 'الشحن / التوصيل' },
+  'nassej.exit.reason.not_sure': { en: 'Not sure about size/style', ar: 'مش متأكد من المقاس/الستايل' },
+  'nassej.exit.reason.other': { en: 'Other', ar: 'أخرى' },
+  'nassej.exit.otherPlaceholder': { en: 'Tell us more…', ar: 'قولنا أكتر…' },
+  'nassej.exit.submit': { en: 'Submit', ar: 'إرسال' },
+  'nassej.exit.thanks': { en: 'Thanks — we saved your feedback.', ar: 'شكرًا — تم حفظ رأيك.' },
+
+  // Product extras
+  'product.views': { en: 'Views:', ar: 'المشاهدات:' },
+  'product.viewsSuffix': { en: 'views', ar: 'مشاهدة' },
+  'product.bundleTitle': { en: 'Bundle suggestion', ar: 'اقتراح باكدج' },
+  'product.bundleSubtitle': { en: 'Complete the fit — save time (and maybe money).', ar: 'كمّل الإطلالة — وفر وقتك.' },
+  'product.addBundle': { en: 'Add bundle', ar: 'أضف الباكدج' },
+  'product.journeyTitle': { en: 'Product journey', ar: 'رحلة المنتج' },
+  'product.journeySubtitle': {
+    en: 'A transparent timeline from idea to delivery (demo).',
+    ar: 'تايملاين شفاف من الفكرة للتسليم (تجريبي).',
+  },
+  'product.journey.design': { en: 'Design', ar: 'التصميم' },
+  'product.journey.fabric': { en: 'Fabric', ar: 'الخامة' },
+  'product.journey.stitch': { en: 'Stitching', ar: 'الخياطة' },
+  'product.journey.qc': { en: 'Quality check', ar: 'فحص الجودة' },
+  'product.journey.pack': { en: 'Packaging', ar: 'التغليف' },
+  'product.journey.ship': { en: 'Shipping', ar: 'الشحن' },
+  'product.sizeHelper': { en: 'Smart size helper', ar: 'مساعد المقاس الذكي' },
+  'product.sizeHelper.subtitle': {
+    en: 'Enter your height & weight to get a quick recommendation (demo).',
+    ar: 'أدخل طولك ووزنك للحصول على توصية سريعة (تجريبي).',
+  },
+  'product.heightCm': { en: 'Height (cm)', ar: 'الطول (سم)' },
+  'product.weightKg': { en: 'Weight (kg)', ar: 'الوزن (كجم)' },
+  'product.recommendedSize': { en: 'Recommended:', ar: 'المقاس المقترح:' },
+  'product.wishNotify': { en: 'We will notify you when it’s back.', ar: 'هنبلغك أول ما يرجع تاني.' },
+
+  // Emotion
+  'nassej.emotion.kicker': { en: 'Mood check', ar: 'مزاجك' },
+  'nassej.emotion.title': { en: 'How does this product make you feel?', ar: 'المنتج ده بيخليك تحس بإيه؟' },
+  'nassej.emotion.saved': { en: 'Saved', ar: 'تم الحفظ' },
+  'nassej.emotion.love': { en: 'Love it', ar: 'جامد جدًا' },
+  'nassej.emotion.okay': { en: 'Okay', ar: 'كويس' },
+  'nassej.emotion.meh': { en: 'Meh', ar: 'عادي' },
+  'nassej.emotion.sad': { en: 'Disappointed', ar: 'مش مبسوط' },
+  'nassej.emotion.angry': { en: 'Angry', ar: 'مستفز' },
+
+  // Style quiz
+  'nassej.quiz.kicker': { en: 'Personalization', ar: 'تخصيص' },
+  'nassej.quiz.title': { en: 'Find your style', ar: 'اعرف ستايلك' },
+  'nassej.quiz.subtitle': {
+    en: 'Answer 3 quick questions and we’ll suggest a vibe (demo).',
+    ar: 'جاوب على ٣ أسئلة سريعة وهنقترح عليك فيب (تجريبي).',
+  },
+  'nassej.quiz.q1': { en: 'Pick your vibe', ar: 'اختر الفايب' },
+  'nassej.quiz.q1.minimal': { en: 'Minimal', ar: 'مينيمال' },
+  'nassej.quiz.q1.bold': { en: 'Bold', ar: 'جريء' },
+  'nassej.quiz.q1.comfy': { en: 'Comfy', ar: 'مريح' },
+  'nassej.quiz.q2': { en: 'When do you wear it most?', ar: 'بتلبسه غالبًا إمتى؟' },
+  'nassej.quiz.q2.daily': { en: 'Daily', ar: 'يوميًا' },
+  'nassej.quiz.q2.night': { en: 'Night out', ar: 'خروجات ليل' },
+  'nassej.quiz.q2.gym': { en: 'Gym / active', ar: 'جيم / رياضة' },
+  'nassej.quiz.q3': { en: 'Choose a season', ar: 'اختر الموسم' },
+  'nassej.quiz.q3.summer': { en: 'Summer', ar: 'صيف' },
+  'nassej.quiz.q3.winter': { en: 'Winter', ar: 'شتاء' },
+  'nassej.quiz.q3.all': { en: 'All year', ar: 'طوال السنة' },
+  'nassej.quiz.next': { en: 'Next', ar: 'التالي' },
+  'nassej.quiz.back': { en: 'Back', ar: 'رجوع' },
+  'nassej.quiz.finish': { en: 'Finish', ar: 'إنهاء' },
+  'nassej.quiz.resultTitle': { en: 'Your recommended vibe', ar: 'الفايب المقترح ليك' },
+  'nassej.quiz.resultDesc': {
+    en: 'Based on your answers, start here and tweak later.',
+    ar: 'بناءً على إجاباتك، ابدأ من هنا وعدّل بعدين.',
+  },
+  'nassej.quiz.shopNow': { en: 'Shop this vibe', ar: 'تسوّق الفايب' },
+  'nassej.quiz.restart': { en: 'Restart', ar: 'إعادة' },
+
+  // Gallery
+  'nassej.gallery.kicker': { en: 'Community', ar: 'المجتمع' },
+  'nassej.gallery.title': { en: 'Customer gallery', ar: 'صور العملاء' },
+  'nassej.gallery.subtitle': {
+    en: 'Share your fit — we’ll feature the best ones (demo, local-only).',
+    ar: 'شارك إطلالتك — هنبرز الأفضل (تجريبي، محلي فقط).',
+  },
+  'nassej.gallery.addTitle': { en: 'Add your photo', ar: 'أضف صورتك' },
+  'nassej.gallery.imageUrl': { en: 'Image URL', ar: 'رابط الصورة' },
+  'nassej.gallery.caption': { en: 'Caption', ar: 'وصف' },
+  'nassej.gallery.add': { en: 'Add', ar: 'إضافة' },
+  'nassej.gallery.empty': { en: 'No photos yet. Be the first!', ar: 'لا توجد صور بعد. كن أول واحد!' },
+
+  // Drops
+  'nassej.drops.kicker': { en: 'Secret', ar: 'سِرّي' },
+  'nassej.drops.title': { en: 'Secret Drop', ar: 'دروب سري' },
+  'nassej.drops.subtitle': {
+    en: 'Enter the code to unlock limited items.',
+    ar: 'أدخل الكود لفتح منتجات محدودة.',
+  },
+  'nassej.drops.enterCode': { en: 'Enter the secret code', ar: 'أدخل الكود السري' },
+  'nassej.drops.codePlaceholder': { en: 'Type code…', ar: 'اكتب الكود…' },
+  'nassej.drops.unlock': { en: 'Unlock', ar: 'فتح' },
+  'nassej.drops.unlocked': { en: 'Unlocked! Enjoy the drop.', ar: 'تم الفتح! استمتع بالدروب.' },
+  'nassej.drops.wrongCode': { en: 'Wrong code.', ar: 'كود غير صحيح.' },
+  'nassej.drops.listTitle': { en: 'Unlocked items', ar: 'المنتجات المفتوحة' },
+  'nassej.drops.tapToView': { en: 'Tap to view', ar: 'اضغط للعرض' },
+  'nassej.drops.badge': { en: 'DROP', ar: 'DROP' },
+
+  // Outfit builder
+  'nassej.outfit.kicker': { en: 'Builder', ar: 'منسّق' },
+  'nassej.outfit.title': { en: 'Outfit builder', ar: 'نسّق إطلالتك' },
+  'nassej.outfit.subtitle': { en: 'Pick pieces and generate a shareable combo.', ar: 'اختار القطع وطلّع كومبو قابل للمشاركة.' },
+  'nassej.outfit.mode': { en: 'Build mode', ar: 'وضع التنسيق' },
+  'nassej.outfit.pickSet': { en: 'Pick a set (optional)', ar: 'اختار طقم (اختياري)' },
+  'nassej.outfit.none': { en: 'None', ar: 'بدون' },
+  'nassej.outfit.setHint': { en: 'If you pick a set, pieces selection will be disabled.', ar: 'لو اخترت طقم، اختيار القطع هيتقفل.' },
+  'nassej.outfit.pickPieces': { en: 'Pick top + bottom', ar: 'اختار توب + بنطلون' },
+  'nassej.outfit.piecesHint': { en: 'Start with something simple then iterate.', ar: 'ابدأ ببساطة وبعدين عدّل.' },
+  'nassej.outfit.copyShare': { en: 'Copy share text', ar: 'نسخ نص المشاركة' },
+  'nassej.outfit.copied': { en: 'Copied to clipboard', ar: 'تم النسخ' },
+  'nassej.outfit.pointsHint': { en: '+10 points when you share', ar: '+10 نقاط عند المشاركة' },
+  'nassej.outfit.preview': { en: 'Preview', ar: 'معاينة' },
+  'nassej.outfit.tapToOpen': { en: 'Tap to open product', ar: 'اضغط لفتح المنتج' },
+  'nassej.outfit.summary': { en: 'Summary', ar: 'الملخص' },
+  'nassej.outfit.sharePrefix': { en: 'My NEXTWAV fit:', ar: 'إطلالتي من NEXTWAV:' },
+  // Aliases / missing keys fixes (kept for backward compatibility)
+  'settings.autoDarkByTimeDesc': {
+    en: 'If Theme is “System”, switch to dark at night automatically.',
+    ar: 'عند اختيار “حسب النظام”، يتم التحويل للداكن تلقائيًا ليلًا.',
+  },
+  'settings.soundsOn': { en: 'On', ar: 'تشغيل' },
+  'settings.soundsDesc': {
+    en: 'Small feedback sounds for key actions (local only).',
+    ar: 'أصوات خفيفة لبعض الإجراءات (محليًا فقط).',
+  },
+  'shop.allFabrics': { en: 'All fabrics', ar: 'كل الأقمشة' },
+
+  // Lucky wheel missing strings
+  'nassej.wheel.desc': {
+    en: 'Spin the wheel and unlock a discount coupon for your next checkout.',
+    ar: 'لف العجلة وافتح كوبون خصم تقدر تستخدمه في الدفع القادم.',
+  },
+  'nassej.wheel.note': {
+    en: 'One spin per device. Coupon expires in 7 days.',
+    ar: 'لفة واحدة لكل جهاز. الكوبون ينتهي خلال 7 أيام.',
+  },
+  'nassej.wheel.spinning': { en: 'Spinning…', ar: 'جارٍ اللف…' },
+  'nassej.wheel.yourGift': { en: 'Your gift', ar: 'هدية لك' },
+  'nassej.wheel.center': { en: 'SPIN', ar: 'لفّ' },
+
+  // Wheel prizes (editable in src/config/wheel.ts)
+  'nassej.wheel.prize.20': { en: '20% OFF', ar: 'خصم 20%' },
+  'nassej.wheel.prize.10': { en: '10% OFF', ar: 'خصم 10%' },
+  'nassej.wheel.prize.5': { en: '5% OFF', ar: 'خصم 5%' },
+  'nassej.wheel.prize.shipping': { en: 'Free shipping', ar: 'شحن مجاني' },
+
+  // Exit intent (generic keys used in component)
+  'exit.kicker': { en: 'Before you go…', ar: 'قبل ما تمشي…' },
+  'exit.title': { en: 'Help us improve', ar: 'ساعدنا نحسّن التجربة' },
+  'exit.desc': { en: 'What stopped you from purchasing today?', ar: 'إيه اللي منعك تشتري النهارده؟' },
+  'exit.notePlaceholder': { en: 'Tell us more…', ar: 'قولنا أكتر…' },
+  'exit.submit': { en: 'Submit', ar: 'إرسال' },
+  'exit.stay': { en: 'Stay on site', ar: 'كمل على الموقع' },
+
+  // Cart misc
+  'cart.checkout.userProceed': { en: 'Proceeding to checkout (demo).', ar: 'جارٍ الانتقال للدفع (تجريبي).' },
+  'cart.checkout.wholesaleSubmitted': {
+    en: 'Your wholesale order has been submitted. Our team will contact you.',
+    ar: 'تم إرسال طلب الجملة. فريقنا هيتواصل معك.',
+  },
+  'cart.checkout.wholesaleSend': { en: 'Send wholesale order', ar: 'إرسال طلب الجملة' },
+
+  // About page missing bits
+  'about.story.heading': { en: 'Our story', ar: 'قصتنا' },
+  'about.story.imageAlt': { en: 'Brand story', ar: 'صورة تحكي قصة البراند' },
+  'about.contact.heading': { en: 'Contact', ar: 'تواصل معنا' },
+  'about.contact.locationValue': { en: 'Egypt', ar: 'مصر' },
+  'about.contact.emailValue': { en: 'support@nextwav.com', ar: 'support@nextwav.com' },
+
+  // Legal pages sidebar (used for mobile sticky sidebar)
+  'terms.sidebar.title': { en: 'Terms', ar: 'الشروط' },
+  'terms.sidebar.button': { en: 'Jump to section', ar: 'اذهب للقسم' },
+  'terms.legalTag': { en: 'Legal', ar: 'قانوني' },
+  'privacy.sidebar.title': { en: 'Privacy', ar: 'الخصوصية' },
+  'privacy.sidebar.button': { en: 'Jump to section', ar: 'اذهب للقسم' },
+  'privacy.legalTag': { en: 'Legal', ar: 'قانوني' },
+
+
+  // Engagement & product extras - missing keys
+  'nassej.wishlist.added': { en: 'Added to wishlist', ar: 'تمت الإضافة للمفضلة' },
+
+  'nassej.bundle.title': { en: 'Bundle suggestion', ar: 'اقتراح باكدج' },
+  'nassej.bundle.addOne': { en: 'Add item', ar: 'أضف قطعة' },
+  'nassej.bundle.addAll': { en: 'Add all', ar: 'أضف الكل' },
+  'nassej.bundle.added': { en: 'Added', ar: 'تمت الإضافة' },
+
+  'nassej.journey.title': { en: 'Product journey', ar: 'رحلة المنتج' },
+  'nassej.journey.step1': { en: 'Design', ar: 'التصميم' },
+  'nassej.journey.step2': { en: 'Fabric', ar: 'الخامة' },
+  'nassej.journey.step3': { en: 'Stitching', ar: 'الخياطة' },
+  'nassej.journey.step4': { en: 'Quality check', ar: 'فحص الجودة' },
+  'nassej.journey.step5': { en: 'Packaging & shipping', ar: 'التغليف والشحن' },
+
+  'nassej.sizeHelper.title': { en: 'Smart size helper', ar: 'مساعد المقاس الذكي' },
+  'nassej.sizeHelper.desc': {
+    en: 'Enter your height and weight to get a quick recommendation (demo).',
+    ar: 'أدخل طولك ووزنك للحصول على توصية سريعة (تجريبي).',
+  },
+  'nassej.sizeHelper.height': { en: 'Height (cm)', ar: 'الطول (سم)' },
+  'nassej.sizeHelper.weight': { en: 'Weight (kg)', ar: 'الوزن (كجم)' },
+  'nassej.sizeHelper.suggest': { en: 'Suggest size', ar: 'اقترح المقاس' },
+  'nassej.sizeHelper.unknown': { en: 'Unknown', ar: 'غير معروف' },
+
+  'nassej.quiz.progress': { en: 'Progress', ar: 'التقدم' },
+  'nassej.quiz.claim': { en: 'Claim reward', ar: 'استلم المكافأة' },
+  'nassej.quiz.pointsWon': { en: 'You won points!', ar: 'كسبت نقاط!' },
+
+  'nassej.gallery.captionPh': { en: 'Add a caption (optional)', ar: 'أضف وصفًا (اختياري)' },
+  'nassej.gallery.noCaption': { en: 'No caption', ar: 'بدون وصف' },
+  'nassej.gallery.remove': { en: 'Remove', ar: 'حذف' },
+  'nassej.gallery.submit': { en: 'Submit', ar: 'إرسال' },
+  'nassej.gallery.thanks': { en: 'Thanks! Your upload is received.', ar: 'شكرًا! تم استلام الرفع.' },
+
+
 };
 
 export function t(key: string, lang: Lang): string {

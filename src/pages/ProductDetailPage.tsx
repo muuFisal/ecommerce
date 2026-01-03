@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container } from '../components/ui/Container';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { findProductById } from '../data/products';
+import { findProductById, products } from '../data/products';
 import { useI18n } from '../i18n/I18nContext';
 import { RecommendedProductsSection } from '../components/sections/home/RecommendedProductsSection';
 import { useCartContext } from '../context/CartContext';
 import { useAuthContext } from '../context/AuthContext';
+import { useEngagement } from '../context/EngagementContext';
+import { dispatchSound } from '../components/engagement/SoundManager';
 
 interface ProductComment {
   id: number;
@@ -23,8 +25,29 @@ const ProductDetailPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useI18n();
+  const { incView, getViews, setEmotion, getEmotion, addPoints } = useEngagement();
   const numericId = Number(id);
   const product = findProductById(numericId);
+
+  const bundleSuggestions = useMemo(() => {
+    if (!product) return [];
+    return products.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 2);
+  }, [product]);
+
+  const [views, setViews] = useState(0);
+  const [emotionKey, setEmotionKey] = useState(getEmotion(numericId));
+
+  useEffect(() => {
+    if (!product) return;
+    incView(product.id);
+    addPoints(1);
+    setViews(getViews(product.id));
+    setEmotionKey(getEmotion(product.id));
+  }, [product?.id]);
+
+  // Simple size helper
+  const [heightCm, setHeightCm] = useState('');
+  const [weightKg, setWeightKg] = useState('');
 
   // Mock comments with ratings
   const [comments, setComments] = useState<ProductComment[]>([
@@ -60,6 +83,15 @@ const ProductDetailPage: React.FC = () => {
       </section>
     );
   }
+
+  const guessSize = () => {
+    const w = Number(weightKg);
+    if (!Number.isFinite(w) || w <= 0) return '';
+    if (w < 60) return 'S';
+    if (w < 75) return 'M';
+    if (w < 90) return 'L';
+    return 'XL';
+  };
 
   const handleAddComment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,12 +163,56 @@ const ProductDetailPage: React.FC = () => {
                  <div className="flex items-center gap-2 text-sm text-text-muted">
                     <span className="text-amber-500 tracking-widest text-base">{"★".repeat(product.rating || 5)}</span>
                     <span>({product.reviewsCount || 4.8} {t('product.reviewsCount')})</span>
+                    <span className="mx-2 h-1 w-1 rounded-full bg-border-subtle" />
+                    <span className="text-xs">{views} {t('product.views')}</span>
+                    {emotionKey ? (
+                      <span className="ml-2 inline-flex items-center gap-1 rounded-full border border-border-subtle bg-bg-base/60 px-2 py-0.5 text-[10px]">
+                        <span>{emotionKey === 'love' ? '😍' : emotionKey === 'okay' ? '🙂' : emotionKey === 'meh' ? '😐' : emotionKey === 'sad' ? '😕' : '😡'}</span>
+                        <span>{t(`nassej.emotion.${emotionKey}` as any)}</span>
+                      </span>
+                    ) : null}
                 </div>
             </div>
 
             <p className="text-base leading-relaxed text-text-muted/90">
                 {product.longDescription}
             </p>
+
+            {/* Emotion rating */}
+            <div className="rounded-2xl border border-border-subtle bg-bg-elevated/30 p-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted">
+                {t('nassej.emotion.title')}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {([
+                  { k: 'love', e: '😍' },
+                  { k: 'okay', e: '🙂' },
+                  { k: 'meh', e: '😐' },
+                  { k: 'sad', e: '😕' },
+                  { k: 'angry', e: '😡' },
+                ] as const).map((it) => (
+                  <button
+                    key={it.k}
+                    type="button"
+                    onClick={() => {
+                      setEmotion(product.id, it.k);
+                      setEmotionKey(it.k);
+                      addPoints(2);
+                      dispatchSound('success');
+                    }}
+                    className={
+                      'inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold transition ' +
+                      (emotionKey === it.k
+                        ? 'border-primary bg-primary/15 text-primary'
+                        : 'border-border-subtle bg-bg-base/50 text-text-muted hover:border-primary/40 hover:text-primary')
+                    }
+                  >
+                    <span className="text-base">{it.e}</span>
+                    <span>{t(`nassej.emotion.${it.k}` as any)}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <div className="h-px w-full bg-border-subtle/50 my-2"></div>
 
@@ -179,6 +255,45 @@ const ProductDetailPage: React.FC = () => {
                         </button>
                       ))}
                     </div>
+
+                    {/* Smart size suggestion */}
+                    <div className="mt-3 rounded-xl border border-border-subtle bg-bg-elevated/30 p-3">
+                      <p className="text-xs font-semibold text-text-main">{t('nassej.sizeHelper.title')}</p>
+                      <p className="text-[11px] text-text-muted mt-0.5">{t('nassej.sizeHelper.desc')}</p>
+                      <div className="mt-2 grid grid-cols-2 gap-2">
+                        <label className="text-xs text-text-muted">
+                          {t('nassej.sizeHelper.height')}
+                          <input
+                            value={heightCm}
+                            onChange={(e) => setHeightCm(e.target.value)}
+                            placeholder="180"
+                            className="mt-1 w-full rounded-lg border border-border-subtle bg-bg-base/60 px-3 py-2 text-sm outline-none focus:border-primary"
+                          />
+                        </label>
+                        <label className="text-xs text-text-muted">
+                          {t('nassej.sizeHelper.weight')}
+                          <input
+                            value={weightKg}
+                            onChange={(e) => setWeightKg(e.target.value)}
+                            placeholder="75"
+                            className="mt-1 w-full rounded-lg border border-border-subtle bg-bg-base/60 px-3 py-2 text-sm outline-none focus:border-primary"
+                          />
+                        </label>
+                      </div>
+                      <div className="mt-2 text-xs">
+                        <span className="text-text-muted">{t('nassej.sizeHelper.suggest')} </span>
+                        <span className="font-bold text-text-main">
+                          {(() => {
+                            const w = Number(weightKg);
+                            if (!w || Number.isNaN(w)) return t('nassej.sizeHelper.unknown');
+                            if (w < 60) return 'S';
+                            if (w < 75) return 'M';
+                            if (w < 90) return 'L';
+                            return 'XL';
+                          })()}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                )}
 
@@ -203,11 +318,85 @@ const ProductDetailPage: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3 pt-4">
-              <Button className="flex-1 py-4 text-sm shadow-xl shadow-primary/20" onClick={() => addToCart(product, 1)}>\n                {t('product.addToCart')}\n              </Button>
-              <button className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border-subtle bg-bg-elevated text-2xl transition-colors hover:bg-bg-soft hover:text-red-500">
+              <Button
+                className="flex-1 py-4 text-sm shadow-xl shadow-primary/20"
+                onClick={() => {
+                  addToCart(product, 1);
+                  addPoints(3);
+                  dispatchSound('success');
+                }}
+              >
+                {t('product.addToCart')}
+              </Button>
+              <button
+                type="button"
+                onClick={() => {
+                  addPoints(1);
+                  dispatchSound('wish');
+                  alert(t('nassej.wishlist.added'));
+                }}
+                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border-subtle bg-bg-elevated text-2xl transition-colors hover:bg-bg-soft hover:text-red-500"
+              >
                 ♥
               </button>
             </div>
+
+            {/* Journey */}
+            <div className="mt-6 rounded-2xl border border-border-subtle bg-bg-elevated/30 p-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted">{t('nassej.journey.title')}</p>
+              <ol className="mt-3 grid gap-2">
+                {[t('nassej.journey.step1'), t('nassej.journey.step2'), t('nassej.journey.step3'), t('nassej.journey.step4'), t('nassej.journey.step5')].map((s, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    <span className="h-6 w-6 rounded-full border border-border-subtle bg-bg-base/60 text-[11px] font-bold flex items-center justify-center">{idx + 1}</span>
+                    <span className="text-sm text-text-main">{s}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* Bundle suggestion */}
+            {bundleSuggestions.length ? (
+              <div className="mt-6 rounded-2xl border border-border-subtle bg-bg-elevated/30 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-text-muted">{t('nassej.bundle.title')}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      bundleSuggestions.forEach((p) => addToCart(p, 1));
+                      addToCart(product, 1);
+                      addPoints(10);
+                      dispatchSound('success');
+                      alert(t('nassej.bundle.added'));
+                    }}
+                    className="rounded-full border border-primary/30 bg-primary/15 px-3 py-1 text-xs font-semibold text-primary hover:bg-primary/20"
+                  >
+                    {t('nassej.bundle.addAll')}
+                  </button>
+                </div>
+                <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {bundleSuggestions.map((p) => (
+                    <div key={p.id} className="flex gap-3 rounded-xl border border-border-subtle bg-bg-base/50 p-3">
+                      <img src={p.image} alt={p.name} className="h-16 w-16 rounded-xl object-cover" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-bold text-text-main">{p.name}</p>
+                        <p className="text-xs text-text-muted">${p.price}</p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            addToCart(p, 1);
+                            addPoints(2);
+                            dispatchSound('click');
+                          }}
+                          className="mt-2 inline-flex rounded-full border border-border-subtle bg-bg-elevated/60 px-3 py-1 text-xs font-semibold text-text-main hover:border-primary/40"
+                        >
+                          {t('nassej.bundle.addOne')}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
 

@@ -4,6 +4,9 @@ import { TopBar } from './TopBar';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { SettingsFab } from './SettingsFab';
+import { WheelPopup } from '../engagement/WheelPopup';
+import { ExitIntentModal } from '../engagement/ExitIntentModal';
+import { SoundManager } from '../engagement/SoundManager';
 
 export const Layout: React.FC = () => {
   return (
@@ -15,6 +18,9 @@ export const Layout: React.FC = () => {
       </main>
       <Footer />
       <SettingsFab />
+      <SoundManager />
+      <ExitIntentModal />
+      <WheelPopup />
     </div>
   );
 };

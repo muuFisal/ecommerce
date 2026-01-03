@@ -17,6 +17,9 @@ interface ThemeContextValue {
   /** Custom colors (primary/secondary) selected by user (or null to use backend/default) */
   colors: { primary: string; secondary: string } | null;
   setColors: (colors: { primary: string; secondary: string } | null) => void;
+  /** If true, and mode=system, resolve theme based on local time (night/day) */
+  autoDarkByTime: boolean;
+  setAutoDarkByTime: (value: boolean) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
@@ -24,9 +27,16 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 const STORAGE_KEY = 'ecommerce-theme-mode';
 const STORAGE_FONT_KEY = 'ecommerce-theme-font';
 const STORAGE_COLORS_KEY = 'ecommerce-theme-colors';
+const STORAGE_AUTO_DARK = 'nassej-auto-dark-by-time';
 
-function resolveMode(mode: ThemeMode): Exclude<ThemeMode, 'system'> {
+function resolveMode(mode: ThemeMode, autoDarkByTime: boolean): Exclude<ThemeMode, 'system'> {
   if (mode === 'system') {
+    if (autoDarkByTime) {
+      const hour = new Date().getHours();
+      // Night: 18:00 -> 06:00
+      const isNight = hour >= 18 || hour < 6;
+      return isNight ? 'dark' : 'light';
+    }
     const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
     return prefersDark ? 'dark' : 'light';
   }
@@ -94,16 +104,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isLoading, setIsLoading] = useState(true);
   const [fontKey, setFontKeyState] = useState<string | null>(null);
   const [colors, setColorsState] = useState<{ primary: string; secondary: string } | null>(null);
+  const [autoDarkByTime, setAutoDarkByTimeState] = useState(false);
 
   useEffect(() => {
     const storedMode = (localStorage.getItem(STORAGE_KEY) as ThemeMode | null) ?? null;
     const storedFontKey = (localStorage.getItem(STORAGE_FONT_KEY) as string | null) ?? null;
     const storedColorsRaw = localStorage.getItem(STORAGE_COLORS_KEY);
+    const storedAutoDark = localStorage.getItem(STORAGE_AUTO_DARK);
+
+    const initialAutoDark = storedAutoDark === '1';
+    setAutoDarkByTimeState(initialAutoDark);
 
     const initialMode: ThemeMode =
       storedMode === 'light' || storedMode === 'dark' || storedMode === 'system' ? storedMode : 'system';
     setModeState(initialMode);
-    const initialResolved = resolveMode(initialMode);
+    const initialResolved = resolveMode(initialMode, initialAutoDark);
     setResolvedMode(initialResolved);
     applyThemeToDocument(initialResolved);
 
@@ -148,26 +163,43 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Keep in sync when OS preference changes while mode=system
   useEffect(() => {
     if (mode !== 'system') return;
-    const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
-    if (!mq) return;
     const handler = () => {
-      const nextResolved = resolveMode('system');
+      const nextResolved = resolveMode('system', autoDarkByTime);
       setResolvedMode(nextResolved);
       applyThemeToDocument(nextResolved);
       applyColorOverrides(colors, nextResolved);
     };
     handler();
+    // If auto-dark is enabled, we tick every minute. Otherwise we listen to OS preference.
+    if (autoDarkByTime) {
+      const id = window.setInterval(handler, 60_000);
+      return () => window.clearInterval(id);
+    }
+    const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
+    if (!mq) return;
     mq.addEventListener?.('change', handler);
     return () => mq.removeEventListener?.('change', handler);
-  }, [mode, colors]);
+  }, [mode, colors, autoDarkByTime]);
 
   const setMode = (newMode: ThemeMode) => {
     setModeState(newMode);
-    const nextResolved = resolveMode(newMode);
+    const nextResolved = resolveMode(newMode, autoDarkByTime);
     setResolvedMode(nextResolved);
     applyThemeToDocument(nextResolved);
     applyColorOverrides(colors, nextResolved);
     localStorage.setItem(STORAGE_KEY, newMode);
+  };
+
+  const setAutoDarkByTime = (value: boolean) => {
+    setAutoDarkByTimeState(value);
+    localStorage.setItem(STORAGE_AUTO_DARK, value ? '1' : '0');
+    // Re-resolve immediately if in system mode.
+    if (mode === 'system') {
+      const nextResolved = resolveMode('system', value);
+      setResolvedMode(nextResolved);
+      applyThemeToDocument(nextResolved);
+      applyColorOverrides(colors, nextResolved);
+    }
   };
 
   const toggleMode = () => {
@@ -215,6 +247,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setFontKey,
     colors,
     setColors,
+    autoDarkByTime,
+    setAutoDarkByTime,
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

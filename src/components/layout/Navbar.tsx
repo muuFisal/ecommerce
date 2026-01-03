@@ -88,6 +88,24 @@ export const Navbar: React.FC = () => {
             >
               {t("nav.collections")}
             </NavLink>
+
+            <NavLink
+              to="/style-quiz"
+              className={({ isActive }) =>
+                isActive ? `${navLinkBase} ${activeNavText}` : navLinkBase
+              }
+            >
+              {t("nav.styleQuiz")}
+            </NavLink>
+
+            <NavLink
+              to="/drops"
+              className={({ isActive }) =>
+                isActive ? `${navLinkBase} ${activeNavText}` : navLinkBase
+              }
+            >
+              {t("nav.drops")}
+            </NavLink>
             <NavLink
               to="/about"
               className={({ isActive }) =>
@@ -238,6 +256,26 @@ export const Navbar: React.FC = () => {
               }
             >
               {t("nav.collections")}
+            </NavLink>
+
+            <NavLink
+              to="/style-quiz"
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                isActive ? `${mobileLinkBase} underline` : mobileLinkBase
+              }
+            >
+              {t("nav.styleQuiz")}
+            </NavLink>
+
+            <NavLink
+              to="/drops"
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                isActive ? `${mobileLinkBase} underline` : mobileLinkBase
+              }
+            >
+              {t("nav.drops")}
             </NavLink>
 
             <NavLink

@@ -6,6 +6,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { I18nProvider } from './i18n/I18nContext';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { EngagementProvider } from './context/EngagementContext';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -14,9 +15,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <I18nProvider>
         <AuthProvider>
           <CartProvider>
-            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-              <App />
-            </BrowserRouter>
+            <EngagementProvider>
+              <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+                <App />
+              </BrowserRouter>
+            </EngagementProvider>
           </CartProvider>
         </AuthProvider>
       </I18nProvider>

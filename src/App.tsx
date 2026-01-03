@@ -19,6 +19,10 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import FlashSalePage from './pages/FlashSalePage';
 import NotFoundPage from './pages/NotFoundPage';
 import OrderDetailsPage from './pages/OrderDetailsPage';
+import StyleQuizPage from './pages/StyleQuizPage';
+import GalleryPage from './pages/GalleryPage';
+import DropsPage from './pages/DropsPage';
+import OutfitBuilderPage from './pages/OutfitBuilderPage';
 
 const App: React.FC = () => {
   return (
@@ -34,6 +38,10 @@ const App: React.FC = () => {
         <Route path="profile" element={<ProfilePage />} />
         <Route path="orders/:id" element={<OrderDetailsPage />} />
         <Route path="wishlist" element={<WishlistPage />} />
+        <Route path="style-quiz" element={<StyleQuizPage />} />
+        <Route path="gallery" element={<GalleryPage />} />
+        <Route path="drops" element={<DropsPage />} />
+        <Route path="outfit" element={<OutfitBuilderPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="forgot-password" element={<ForgotPasswordPage />} />

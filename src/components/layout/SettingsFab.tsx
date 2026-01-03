@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Languages, Laptop, Moon, Palette, Settings, Sun, Type, X } from 'lucide-react';
 import { useThemeContext, FONT_OPTIONS } from '../../context/ThemeContext';
 import { useI18n } from '../../i18n/I18nContext';
+import { useLocalStorageState } from '../../hooks/useLocalStorageState';
+import { SOUND_LS_KEY } from '../engagement/SoundManager';
 
 const COLOR_PRESETS: Array<{ primary: string; secondary: string }> = [
   { primary: '#22c55e', secondary: '#38bdf8' },
@@ -17,7 +19,9 @@ function isValidHexColor(value: string) {
 
 export const SettingsFab: React.FC = () => {
   const { lang, t, setLang } = useI18n();
-  const { mode, setMode, fontKey, setFontKey, colors, setColors } = useThemeContext();
+  const { mode, resolvedMode, setMode, fontKey, setFontKey, colors, setColors, autoDarkByTime, setAutoDarkByTime } = useThemeContext();
+
+  const [soundsEnabled, setSoundsEnabled] = useLocalStorageState<boolean>(SOUND_LS_KEY, false);
 
   const [open, setOpen] = useState(false);
   const side = lang === 'ar' ? 'right' : 'left';
@@ -29,17 +33,8 @@ export const SettingsFab: React.FC = () => {
   // ✅ Resolve actual theme (dark/light) to style native selects/options correctly
   const [isDarkResolved, setIsDarkResolved] = useState(false);
   useEffect(() => {
-    const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
-    const compute = () => {
-      const prefersDark = mq?.matches ?? false;
-      const resolved = mode === 'system' ? prefersDark : mode === 'dark';
-      setIsDarkResolved(resolved);
-    };
-
-    compute();
-    mq?.addEventListener?.('change', compute);
-    return () => mq?.removeEventListener?.('change', compute);
-  }, [mode]);
+    setIsDarkResolved(resolvedMode === 'dark');
+  }, [resolvedMode]);
 
   useEffect(() => {
     // Keep local inputs in sync when colors change from elsewhere.
@@ -102,7 +97,12 @@ export const SettingsFab: React.FC = () => {
         {/* drawer */}
         <div
           className={
-            `absolute bottom-6 ${side}-6 w-[340px] max-w-[calc(100vw-3rem)] rounded-2xl ` +
+            `absolute bottom-6 ${side}-6 ` +
+            // ✅ Responsive width: smaller on mobile, larger on tablet/desktop
+            `w-[340px] max-w-[calc(100vw-3rem)] sm:w-[380px] md:w-[420px] ` +
+            // ✅ Max height to prevent overflow
+            `max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-4rem)] ` +
+            `rounded-2xl flex flex-col ` +
             // ✅ more visible in light mode + subtle ring
             `border border-border-subtle bg-bg-elevated/98 shadow-2xl backdrop-blur ` +
             `ring-1 ring-black/10 dark:ring-white/10 ` +
@@ -115,7 +115,8 @@ export const SettingsFab: React.FC = () => {
           role="dialog"
           aria-modal="true"
         >
-          <div className="flex items-center justify-between px-4 py-3">
+          {/* Header - Fixed */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border-subtle shrink-0">
             <div className="flex items-center gap-2">
               <Settings className="h-4 w-4 text-text-muted" />
               <div className="font-display text-sm font-semibold">{t('settings.title')}</div>
@@ -130,7 +131,8 @@ export const SettingsFab: React.FC = () => {
             </button>
           </div>
 
-          <div className="space-y-4 px-4 pb-4">
+          {/* Content - Scrollable */}
+          <div className="space-y-4 px-4 py-4 overflow-y-auto overflow-x-hidden flex-1 custom-scrollbar">
             {/* Theme */}
             <div className="rounded-2xl border border-border-subtle bg-bg-base/70 dark:bg-bg-base/40 p-3">
               <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
@@ -178,6 +180,33 @@ export const SettingsFab: React.FC = () => {
                   {t('settings.theme.dark')}
                 </button>
               </div>
+
+              {/* Auto dark by time */}
+              <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-border-subtle bg-bg-elevated/60 px-3 py-2">
+                <div className="text-xs">
+                  <p className="font-semibold text-text-main">{t('settings.autoDarkByTime')}</p>
+                  <p className="text-[11px] text-text-muted">{t('settings.autoDarkByTimeDesc')}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setAutoDarkByTime(!autoDarkByTime)}
+                  className={
+                    'h-8 w-14 rounded-full border transition ' +
+                    (autoDarkByTime
+                      ? 'border-primary bg-primary/20'
+                      : 'border-border-subtle bg-bg-base')
+                  }
+                  aria-label="auto dark"
+                >
+                  <span
+                    className={
+                      'block h-6 w-6 translate-x-1 rounded-full bg-text-main transition-transform ' +
+                      (autoDarkByTime ? 'translate-x-7 bg-primary' : 'translate-x-1')
+                    }
+                  />
+                </button>
+              </div>
+
             </div>
 
             {/* Language */}
@@ -228,10 +257,11 @@ export const SettingsFab: React.FC = () => {
                   // ✅ important: helps browser render native dropdown in dark mode correctly
                   style={{ colorScheme: isDarkResolved ? 'dark' : 'light' }}
                   className={
-                    `h-10 w-full rounded-xl border border-border-subtle px-3 text-sm outline-none ` +
-                    `bg-bg-elevated/70 text-text-base ` +
-                    `dark:bg-bg-elevated dark:text-white ` +
-                    `focus:border-[var(--color-primary)]`
+                    `h-10 w-full rounded-xl border border-border-subtle px-3 text-sm outline-none transition-colors ` +
+                    `cursor-pointer ` +
+                    `bg-bg-elevated/70 text-text-main ` +
+                    `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50 ` +
+                    `focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20`
                   }
                 >
                   <option value="" style={optionStyle}>{fontLabel}</option>
@@ -245,7 +275,11 @@ export const SettingsFab: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setFontKey(null)}
-                  className="h-10 whitespace-nowrap rounded-xl border border-border-subtle bg-bg-elevated/60 px-3 text-sm hover:bg-bg-elevated"
+                  className={
+                    `h-10 whitespace-nowrap rounded-xl border border-border-subtle px-3 text-sm transition-colors ` +
+                    `bg-bg-elevated/60 text-text-main ` +
+                    `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
+                  }
                 >
                   {t('settings.reset')}
                 </button>
@@ -259,6 +293,38 @@ export const SettingsFab: React.FC = () => {
               </div>
             </div>
 
+            {/* Sounds */}
+            <div className="rounded-2xl border border-border-subtle bg-bg-base/70 dark:bg-bg-base/40 p-3">
+              <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                <span className="text-text-muted">🔊</span>
+                <span>{t('settings.sounds')}</span>
+              </div>
+              <div className="flex items-center justify-between gap-3 rounded-xl border border-border-subtle bg-bg-elevated/60 px-3 py-2">
+                <div className="text-xs">
+                  <p className="font-semibold text-text-main">{t('settings.soundsOn')}</p>
+                  <p className="text-[11px] text-text-muted">{t('settings.soundsDesc')}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSoundsEnabled(!soundsEnabled)}
+                  className={
+                    'h-8 w-14 rounded-full border transition ' +
+                    (soundsEnabled
+                      ? 'border-primary bg-primary/20'
+                      : 'border-border-subtle bg-bg-base')
+                  }
+                  aria-label="sounds"
+                >
+                  <span
+                    className={
+                      'block h-6 w-6 translate-x-1 rounded-full bg-text-main transition-transform ' +
+                      (soundsEnabled ? 'translate-x-7 bg-primary' : 'translate-x-1')
+                    }
+                  />
+                </button>
+              </div>
+            </div>
+
             {/* Colors */}
             <div className="rounded-2xl border border-border-subtle bg-bg-base/70 dark:bg-bg-base/40 p-3">
               <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
@@ -267,7 +333,11 @@ export const SettingsFab: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                <label className="flex items-center justify-between gap-2 rounded-xl border border-border-subtle bg-bg-elevated/60 px-3 py-2 text-sm">
+                <label className={
+                  `flex items-center justify-between gap-2 rounded-xl border border-border-subtle px-3 py-2 text-sm transition-colors cursor-pointer ` +
+                  `bg-bg-elevated/60 ` +
+                  `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
+                }>
                   <span className="text-text-muted">{t('settings.primary')}</span>
                   <input
                     type="color"
@@ -281,7 +351,11 @@ export const SettingsFab: React.FC = () => {
                   />
                 </label>
 
-                <label className="flex items-center justify-between gap-2 rounded-xl border border-border-subtle bg-bg-elevated/60 px-3 py-2 text-sm">
+                <label className={
+                  `flex items-center justify-between gap-2 rounded-xl border border-border-subtle px-3 py-2 text-sm transition-colors cursor-pointer ` +
+                  `bg-bg-elevated/60 ` +
+                  `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
+                }>
                   <span className="text-text-muted">{t('settings.secondary')}</span>
                   <input
                     type="color"
@@ -307,7 +381,11 @@ export const SettingsFab: React.FC = () => {
                         setSecondary(p.secondary);
                         setColors({ primary: p.primary, secondary: p.secondary });
                       }}
-                      className="h-9 w-9 rounded-xl border border-border-subtle bg-bg-elevated/60 hover:bg-bg-elevated"
+                      className={
+                        `h-9 w-9 rounded-xl border border-border-subtle transition-colors ` +
+                        `bg-bg-elevated/60 ` +
+                        `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
+                      }
                       aria-label={`preset-${idx}`}
                     >
                       <span
@@ -320,7 +398,11 @@ export const SettingsFab: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setColors(null)}
-                  className="h-9 rounded-xl border border-border-subtle bg-bg-elevated/60 px-3 text-sm hover:bg-bg-elevated"
+                  className={
+                    `h-9 rounded-xl border border-border-subtle px-3 text-sm transition-colors ` +
+                    `bg-bg-elevated/60 text-text-main ` +
+                    `hover:bg-bg-elevated hover:border-[var(--color-primary)]/50`
+                  }
                 >
                   {t('settings.reset')}
                 </button>

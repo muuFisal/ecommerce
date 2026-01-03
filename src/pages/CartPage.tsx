@@ -69,12 +69,12 @@ const CartPage: React.FC = () => {
     const response = await submitTraderOrder(payload);
     if (response.success) {
       setCartItems([]);
-      alert('Your wholesale order has been submitted. Our team will contact you.');
+      alert(t('cart.checkout.wholesaleSubmitted'));
     }
   };
 
   const handleUserCheckout = () => {
-    alert('Proceeding to user checkout.');
+    alert(t('cart.checkout.userProceed'));
   };
 
   return (
@@ -206,7 +206,7 @@ const CartPage: React.FC = () => {
               <Button fullWidth className="py-4 text-sm font-bold rounded-2xl shadow-xl shadow-primary/20 bg-gradient-to-r from-primary to-emerald-400 hover:to-emerald-500 border-none relative overflow-hidden group"
                 onClick={role === 'trader' ? handleTraderCheckout : handleUserCheckout}>
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                      {role === 'trader' ? 'Send Wholesale Order' : t('cart.checkout')}
+                      {role === 'trader' ? t('cart.checkout.wholesaleSend') : t('cart.checkout')}
                   </span>
                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
               </Button>

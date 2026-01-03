@@ -9,6 +9,7 @@ import { useI18n } from '../i18n/I18nContext';
 import { useAuthContext } from '../context/AuthContext';
 
 const ALL_TAGS: Tag[] = ['oversized', 'unisex', 'minimal', 'graphic', 'summer', 'winter'];
+const ALL_FABRICS = Array.from(new Set(products.map((p) => p.fabric).filter(Boolean))) as string[];
 
 const ShopPage: React.FC = () => {
   const { t, lang } = useI18n();
@@ -16,6 +17,7 @@ const ShopPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<Category | 'all'>('all');
   const [activeTags, setActiveTags] = useState<Tag[]>([]);
+  const [fabric, setFabric] = useState<string | 'all'>('all');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(120);
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
@@ -34,10 +36,11 @@ const ShopPage: React.FC = () => {
       if (category !== 'all' && p.category !== category) return false;
       if (p.price < minPrice || p.price > maxPrice) return false;
       if (activeTags.length > 0 && !activeTags.every((t) => p.tags.includes(t))) return false;
+      if (fabric !== 'all' && (p.fabric || '').toLowerCase() !== fabric.toLowerCase()) return false;
       if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
       return true;
     });
-  }, [category, minPrice, maxPrice, activeTags, search]);
+  }, [category, minPrice, maxPrice, activeTags, fabric, search]);
 
   return (
     <section className="py-10">
@@ -132,6 +135,25 @@ const ShopPage: React.FC = () => {
                 </div>
               </div>
 
+              {/* Fabric filter */}
+              {ALL_FABRICS.length ? (
+                <div className="space-y-2 text-xs">
+                  <p className="font-semibold text-text-main">{t('shop.fabric')}</p>
+                  <select
+                    value={fabric}
+                    onChange={(e) => setFabric(e.target.value)}
+                    className="w-full rounded-2xl border border-border-subtle bg-bg-soft px-3 py-2 text-xs text-text-main outline-none focus:border-primary"
+                  >
+                    <option value="all">{t('shop.allFabrics')}</option>
+                    {ALL_FABRICS.map((f) => (
+                      <option key={f} value={f}>
+                        {f}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
+
               <Button
                 variant="ghost"
                 className="w-full py-2 text-xs"
@@ -139,6 +161,7 @@ const ShopPage: React.FC = () => {
                   setSearch('');
                   setCategory('all');
                   setActiveTags([]);
+                  setFabric('all');
                   setMinPrice(0);
                   setMaxPrice(120);
                 }}

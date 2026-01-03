@@ -32,6 +32,9 @@ export interface Product {
   wholesalePrice?: number;
   seriesConfig?: SeriesConfig;
   isRecommended?: boolean;
+  /** Extra merchandising meta */
+  fabric?: string;
+  care?: string;
 }
 
 export const products: Product[] = [
@@ -65,6 +68,8 @@ export const products: Product[] = [
       'Heavyweight hoodie with front script print, soft fleece inside, and an oversized street-ready fit.',
     longDescription:
       'This hoodie is built for late nights, cold cities, and everyday wear. The fabric is a heavyweight cotton blend with a soft brushed interior, so it feels premium without being too bulky. The front script graphic is subtle enough for daily use, but still stands out in photos. Drop shoulders and an oversized cut give you the modern streetwear silhouette, while the double-stitched hems are made to last season after season.',
+    fabric: 'Heavyweight cotton blend',
+    care: 'Machine wash cold, turn inside out, low tumble dry',
     onFlashSale: true,
     flashSalePrice: 49,
   },
@@ -90,6 +95,8 @@ export const products: Product[] = [
       'Relaxed-fit cargo pants with utility pockets and drawstring ankles — made for movement.',
     longDescription:
       'Signal Cargo Pants are designed to move from daytime errands to late-night sessions without changing your fit. The relaxed leg and adjustable drawstring ankles let you style them straight or stacked over your sneakers. Multiple utility pockets hold your phone, wallet, and keys with room to spare. The mid-weight fabric works across seasons, especially layered with hoodies or oversized tees.',
+    fabric: 'Mid-weight cotton twill',
+    care: 'Machine wash cold, hang dry recommended',
     onFlashSale: true,
     flashSalePrice: 42,
   },
@@ -116,6 +123,8 @@ export const products: Product[] = [
       'Soft cotton tee with a clean front and bold back print inspired by radio waves and city lights.',
     longDescription:
       'The Radio Wave Tee keeps the front minimal and hides the loud energy on the back. Printed with a high‑resolution graphic inspired by late‑night radio frequencies, this tee is built from soft, breathable cotton that works in hot weather and under layers. The cut is slightly boxy with a relaxed fit that pairs with cargos, denim, or shorts.',
+    fabric: 'Combed cotton jersey',
+    care: 'Machine wash cold, do not iron on print',
   },
   {
     id: 4,
@@ -139,6 +148,8 @@ export const products: Product[] = [
       'Matching top and bottom set with relaxed cuts — easy to wear, easy to style, perfect for full-fit days.',
     longDescription:
       'This two‑piece set is your shortcut to looking put‑together with zero effort. The top and bottoms share the same fabric and color story, so you can throw them on and step out instantly styled. The relaxed fit keeps it breathable in warmer weather, while the minimalist details let you layer jewelry, caps, and sneakers to match your mood.',
+    fabric: 'Soft cotton-blend jersey',
+    care: 'Wash cold, do not bleach, low heat iron',
     onFlashSale: false,
   },
 ];
